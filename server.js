@@ -23,12 +23,32 @@ const PORT = process.env.PORT || 3000;
 
 
 const typeDefs = gql`
+    type User {
+        id: ID!,
+        name: String!,
+        email: String!,
+        tasks: [Task!]
+    }
+
+    type Task {
+        id: ID!,
+        name: String!,
+        completed: Boolean!
+        user: User!
+    }
+
     type Query {
-        greetings: String
+        greetings: String!
+        greetingsList: [String!]
     }
 `;
 
-const resolvers = {};
+const resolvers = {
+    Query: {
+        greetings: () => "Hello",
+        greetingsList: () => ["Hello", "Hi"]
+    }
+};
 
 async function startApolloServer(app, httpServer, typeDefs, resolvers) {
 
