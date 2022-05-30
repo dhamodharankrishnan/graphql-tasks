@@ -49,10 +49,17 @@ const resolvers = {
     Query: {
         greetings: () => "Hello",
         greetingsList: () => ["Hello", "Hi"],
-        tasks: () => tasks
+        tasks: () => {
+            console.log(tasks)
+            return tasks
+        }
     },
     Task: {
-        user: (parent) => users.find( user => user.id === parent.userId)
+        //user: (parent) => users.find( user => user.id === parent.userId)
+        user: ( {userId}) => {
+            console.log('userId',userId);
+            return users.find( user => user.id === userId)
+        }
     }
 };
 
