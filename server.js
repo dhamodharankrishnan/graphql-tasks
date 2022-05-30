@@ -6,6 +6,7 @@ const cors = require('cors');
 const dotEnv = require('dotenv');
 const http =require('http');
 const { start } = require('repl');
+const { tasks } = require('./constants');
 
 //setup env.
 dotEnv.config();
@@ -39,14 +40,16 @@ const typeDefs = gql`
 
     type Query {
         greetings: String!
-        greetingsList: [String!]
+        greetingsList: [String!],
+        tasks: [Task!]
     }
 `;
 
 const resolvers = {
     Query: {
         greetings: () => "Hello",
-        greetingsList: () => ["Hello", "Hi"]
+        greetingsList: () => ["Hello", "Hi"],
+        tasks: () => tasks
     }
 };
 
