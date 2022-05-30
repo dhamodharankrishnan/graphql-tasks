@@ -6,7 +6,7 @@ const cors = require('cors');
 const dotEnv = require('dotenv');
 const http =require('http');
 const { start } = require('repl');
-const { tasks } = require('./constants');
+const { tasks, users } = require('./constants');
 
 //setup env.
 dotEnv.config();
@@ -50,6 +50,9 @@ const resolvers = {
         greetings: () => "Hello",
         greetingsList: () => ["Hello", "Hi"],
         tasks: () => tasks
+    },
+    Task: {
+        user: (parent) => users.find( user => user.id === parent.userId)
     }
 };
 
