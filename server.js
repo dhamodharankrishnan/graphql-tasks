@@ -6,6 +6,7 @@ const cors = require('cors');
 const dotEnv = require('dotenv');
 const http =require('http');
 const { start } = require('repl');
+const { tasks, users } = require('./constants');
 
 //setup env.
 dotEnv.config();
@@ -23,12 +24,37 @@ const PORT = process.env.PORT || 3000;
 
 
 const typeDefs = gql`
+    type User {
+        id: ID!,
+        name: String!,
+        email: String!,
+        tasks: [Task!]
+    }
+
+    type Task {
+        id: ID!,
+        name: String!,
+        completed: Boolean!
+        user: User!
+    }
+
     type Query {
-        greetings: String
+        greetings: String!
+        greetingsList: [String!],
+        tasks: [Task!]
     }
 `;
 
-const resolvers = {};
+const resolvers = {
+    Query: {
+        greetings: () => "Hello",
+        greetingsList: () => ["Hello", "Hi"],
+        tasks: () => tasks
+    },
+    Task: {
+        user: (parent) => users.find( user => user.id === parent.userId)
+    }
+};
 
 async function startApolloServer(app, httpServer, typeDefs, resolvers) {
 
